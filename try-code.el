@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Thu Feb  3 17:54:47 2011 (+0800)
+;; Last-Updated: Sun Feb  6 22:54:48 2011 (+0800)
 ;;           By: Le Wang
-;;     Update #: 18
+;;     Update #: 19
 ;; URL: https://github.com/lewang/le_emacs_libs/blob/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -407,6 +407,7 @@ point is moved to appropriate insertion point."
       (insert try-code-end-string "\n")
       (comment-region (1+ insertion-mark) (point))
       (goto-char insertion-mark)
+      (indent-according-to-mode)
       (message "Your old code is in the kill-ring.")
       (set-marker end-m nil)
       )))
