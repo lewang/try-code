@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Sun Feb  6 22:54:48 2011 (+0800)
+;; Last-Updated: Fri Sep  9 03:22:17 2011 (+0800)
 ;;           By: Le Wang
-;;     Update #: 19
+;;     Update #: 20
 ;; URL: https://github.com/lewang/le_emacs_libs/blob/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -435,7 +435,8 @@ User is offered a choice of which to keep."
     (condition-case err
         (let (done
               char
-              selected-string)
+              selected-string
+              no-action)
           (setq old-code-overlay (make-overlay old-code-start old-code-end))
           (overlay-put old-code-overlay 'face 'try-code-old-code-face)
           (setq test-code-overlay (make-overlay test-code-start test-code-end))
@@ -447,7 +448,7 @@ User is offered a choice of which to keep."
                          ")ld or ("
                          (propertize "t" 'face 'try-code-test-code-face)
                          ")test? ")
-                 "ot"))
+                 "ot"))
           (cond ((= ?o  char)
                  (goto-char old-code-start)
                  (comment-region (point)
@@ -464,14 +465,18 @@ User is offered a choice of which to keep."
                         test-code-start
                         (point-at-bol (1+ test-code-line-count))))
                  (when (string-match  "\`[\n\r\t ]*\'" selected-string)
-                   (setq selected-string ""))))
+                   (setq selected-string "")))
+                ;; sometimes we just want to find the section
+                ((= ? char)
+                 (setq no-action t)))
           (delete-overlay old-code-overlay)
           (delete-overlay test-code-overlay)
           (goto-char code-region-start)
-          (delete-region code-region-start
-                         (point-at-bol (1+ code-region-line-count)))
-          (insert selected-string)
-          (goto-char code-region-start))
+          (unless no-action
+            (delete-region code-region-start
+                           (point-at-bol (1+ code-region-line-count)))
+            (insert selected-string)
+            (goto-char code-region-start)))
       (error (and (overlayp old-code-overlay)
                   (delete-overlay old-code-overlay))
              (and (overlayp old-code-overlay)
