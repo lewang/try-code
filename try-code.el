@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Fri Sep  9 03:33:55 2011 (+0800)
+;; Last-Updated: Tue Sep 13 23:31:06 2011 (+0800)
 ;;           By: Le Wang
-;;     Update #: 21
+;;     Update #: 23
 ;; URL: https://raw.github.com/lewang/le_emacs_try_code/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -141,17 +141,24 @@ still respected."
        (try-code-fill-string
          nil "<" (- try-code-fill-length (length try-code-end-string)) t)))
 
-(defun try-code-get-char (prompt accept-string)
+(defun try-code-get-char (prompt accept-string &optional case-fold)
   "repeatedly read chars until getting one in accept-string.
-  char inputs are case insensitive.
-  accept-string is case insensitive."
+
+case is sensitive by default.
+
+case-fold is enabled as an option, when case-fold is enabled,
+only the upper case version of characters will be returned."
   (let ((cont t)
-        (accept-list (string-to-list (upcase accept-string)))
+        (accept-list (string-to-list (if case-fold
+                                         (upcase accept-string)
+                                       accept-string)))
         char)
     (while cont
       (message prompt)
       (setq char (read-char prompt))
-      (when (memq (upcase char) accept-list)
+      (when case-fold
+        (setq char (upcase char)))
+      (when (memq char accept-list)
         (setq cont nil)))
     char))
 
@@ -448,8 +455,9 @@ User is offered a choice of which to keep."
                          ")ld or ("
                          (propertize "t" 'face 'try-code-test-code-face)
                          ")test? ")
-                 "ot"))
-          (cond ((= ?o  char)
+                 "OT"
+                 t))
+          (cond ((= ?O  char)
                  (goto-char old-code-start)
                  (comment-region (point)
                                  (point-at-bol (1+ old-code-line-count))
@@ -458,7 +466,7 @@ User is offered a choice of which to keep."
                        (buffer-substring-no-properties
                         old-code-start
                         (point-at-bol (1+ old-code-line-count)))))
-                ((= ?t char)
+                ((= ?T char)
                  (goto-char test-code-start)
                  (setq selected-string
                        (buffer-substring-no-properties
