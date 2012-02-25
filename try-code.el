@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Tue Sep 13 23:31:06 2011 (+0800)
+;; Last-Updated: Sat Feb 25 22:39:12 2012 (+0800)
 ;;           By: Le Wang
-;;     Update #: 23
+;;     Update #: 24
 ;; URL: https://raw.github.com/lewang/le_emacs_try_code/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -154,7 +154,6 @@ only the upper case version of characters will be returned."
                                        accept-string)))
         char)
     (while cont
-      (message prompt)
       (setq char (read-char prompt))
       (when case-fold
         (setq char (upcase char)))
