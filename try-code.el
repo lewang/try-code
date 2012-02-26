@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Sat Feb 25 23:11:52 2012 (+0800)
+;; Last-Updated: Mon Feb 27 00:51:03 2012 (+0800)
 ;;           By: Le Wang
-;;     Update #: 25
+;;     Update #: 27
 ;; URL: https://raw.github.com/lewang/le_emacs_try_code/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -46,6 +46,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Code:
 
+(eval-when-compile '(require 'cl))
 
 (defgroup try-code nil
   "easily try a new piece of code"
@@ -243,19 +244,18 @@ only the upper case version of characters will be returned."
   "return various information about the line at point in an alist.
 
 text-begin-pos starts after spaces and read-only text"
-  (setq point (or point
-                  (point)))
+  (setq point (or point (point)))
   (save-excursion
     (goto-char point)
-    (beginning-of-line 1)
-    (let ((comment-begin-pos (when (and comment-start-skip
-                                        (re-search-forward
-                                         comment-start-skip
-                                         (point-at-eol)
-                                         t))
+    (forward-line 0)
+    (let ((comment-begin-pos (when comment-start-skip
                                (prog1
-                                   (point)
-                                 (beginning-of-line 1))))
+                                   (if (loop while (re-search-forward comment-start-skip (point-at-eol) t)
+                                             do (when (eq 'comment (syntax-ppss-context (syntax-ppss)))
+                                                  (return 'found)))
+                                       (point)
+                                     nil)
+                                 (forward-line 0))))
           (text-begin-pos (let ((indent-tabs-mode nil)
                                 pos)
                             (setq pos (cond ((get-text-property (point) 'read-only)
@@ -270,7 +270,7 @@ text-begin-pos starts after spaces and read-only text"
                                                          (point-at-bol)
                                                          (point-at-eol)))
                                                 (point-at-bol)))))
-                            (beginning-of-line 1)
+                            (forward-line 0)
                             pos))
 
           (text-end-pos (prog2
@@ -279,7 +279,7 @@ text-begin-pos starts after spaces and read-only text"
                              (point-at-eol)
                              t)
                             (match-beginning 0)
-                          (beginning-of-line 1))))
+                          (forward-line 0))))
       (list (cons 'comment-begin-pos comment-begin-pos)
             (cons 'text-begin-pos text-begin-pos)
             (cons 'text-end-pos text-end-pos)
