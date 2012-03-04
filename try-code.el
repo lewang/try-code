@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Mon Feb 27 00:51:03 2012 (+0800)
+;; Last-Updated: Sun Mar  4 18:36:54 2012 (+0800)
 ;;           By: Le Wang
-;;     Update #: 27
+;;     Update #: 30
 ;; URL: https://raw.github.com/lewang/le_emacs_try_code/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -261,7 +261,14 @@ text-begin-pos starts after spaces and read-only text"
                             (setq pos (cond ((get-text-property (point) 'read-only)
                                              (next-single-property-change
                                               (point) 'read-only nil (point-at-eol)))
-                                            ((featurep 'filladapt)
+                                            (
+                                             ;; defer to `filladapt' when
+                                             ;; there is no comment syntax OR
+                                             ;; if we are in a comment or
+                                             ;; string.
+                                             (and (featurep 'filladapt)
+                                                  (or (not comment-start)
+                                                      (syntax-ppss-context (syntax-ppss))))
                                              (+ (length (filladapt-make-fill-prefix
                                                          (filladapt-parse-prefixes)))
                                                 (point-at-bol)))
