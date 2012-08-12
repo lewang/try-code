@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Sun Mar  4 18:36:54 2012 (+0800)
+;; Last-Updated: Sun Jun 24 19:55:24 2012 (+0800)
 ;;           By: Le Wang
-;;     Update #: 30
+;;     Update #: 31
 ;; URL: https://raw.github.com/lewang/le_emacs_try_code/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -273,10 +273,8 @@ text-begin-pos starts after spaces and read-only text"
                                                          (filladapt-parse-prefixes)))
                                                 (point-at-bol)))
                                             (t
-                                             (+ (length (fill-context-prefix
-                                                         (point-at-bol)
-                                                         (point-at-eol)))
-                                                (point-at-bol)))))
+                                             (back-to-indentation)
+                                             (point))))
                             (forward-line 0)
                             pos))
 
