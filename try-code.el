@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Sun Jun 24 19:55:24 2012 (+0800)
+;; Last-Updated: Thu Aug 16 23:19:32 2012 (+0800)
 ;;           By: Le Wang
-;;     Update #: 31
+;;     Update #: 33
 ;; URL: https://raw.github.com/lewang/le_emacs_try_code/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -202,9 +202,9 @@ only the upper case version of characters will be returned."
         (if (and comment-start
                  (re-search-forward (regexp-quote comment-start)
                                       (point-at-eol) t)
-                 (<= (match-beginning 0) beg))
+                 (goto-char (match-beginning 0))
+                 (<= (point) beg))
             (progn
-              (goto-char (match-beginning 0))
               (setq temp (point))
               (if (and comment-end
                        (not (= 0 (length comment-end)))
