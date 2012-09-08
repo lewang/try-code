@@ -293,15 +293,6 @@ text-begin-pos starts after spaces and read-only text"
                                         comment-begin-pos)))
             ))))
 
-
-(defun try-code-region-is-whitespace (beg end)
-  (save-excursion
-    (goto-char beg)
-    (skip-chars-forward try-code-whitespace-string end)
-    (if (< (point) end)
-        nil
-      t)))
-
 (defun try-code-get-comment-info-alist (point)
   "Return info about the last old/test code pair in an alist,
 or nil if none found.
@@ -379,50 +370,45 @@ Searching starts from point backwards, "
   "make a old/test region out of the parameter region
 
 point is moved to appropriate insertion point."
-
-
-  (if (and (try-code-region-is-a-comment beg end)
-           (not (try-code-region-is-whitespace beg end)))
-      (error "this function is meaningless for a comment region.")
-    (let (diff
-          end-m
-          insertion-mark)
-      (setq beg (min beg end))          ;set variables
-      (setq end (max beg end))
-      (setq diff (- end beg))
-      (setq end-m (make-marker))
-      (set-marker end-m end)
-      (set-marker-insertion-type end-m t)
-      (goto-char beg)                   ;break lines if necessary
-      (unless (<= (point) (cdr (assq 'text-begin-pos (try-code-parse-line))))
-        (insert "\n")
-        (setq beg (point)))
-      (goto-char end-m)
-      ;; end-m will be at the beginning of a line
-      (cond ((= (point-at-bol) (point))
-             nil)
-            ((= (point-at-eol) (point))
-             (if (eobp)
-                 (insert "\n")
-               (forward-char 1)
-               (set-marker end-m (1+ end-m))))
-            (t
-             (insert "\n")))
-      (copy-region-as-kill beg end-m)   ;copy the region to be modified
-      (goto-char beg)                   ;start modifying text
-      (insert try-code-start-string "\n")
-      (goto-char end-m)
-      (insert try-code-middle-string "\n")
-      (comment-region beg end-m)
-      (setq insertion-mark (point))
+  (let (diff
+        end-m
+        insertion-mark)
+    (setq beg (min beg end))            ;set variables
+    (setq end (max beg end))
+    (setq diff (- end beg))
+    (setq end-m (make-marker))
+    (set-marker end-m end)
+    (set-marker-insertion-type end-m t)
+    (goto-char beg)                     ;break lines if necessary
+    (unless (<= (point) (cdr (assq 'text-begin-pos (try-code-parse-line))))
       (insert "\n")
-      (insert try-code-end-string "\n")
-      (comment-region (1+ insertion-mark) (point))
-      (goto-char insertion-mark)
-      (indent-according-to-mode)
-      (message "Your old code is in the kill-ring.")
-      (set-marker end-m nil)
-      )))
+      (setq beg (point)))
+    (goto-char end-m)
+    ;; end-m will be at the beginning of a line
+    (cond ((= (point-at-bol) (point))
+           nil)
+          ((= (point-at-eol) (point))
+           (if (eobp)
+               (insert "\n")
+             (forward-char 1)
+             (set-marker end-m (1+ end-m))))
+          (t
+           (insert "\n")))
+    (copy-region-as-kill beg end-m)     ;copy the region to be modified
+    (goto-char beg)                     ;start modifying text
+    (insert try-code-start-string "\n")
+    (goto-char end-m)
+    (insert try-code-middle-string "\n")
+    (comment-region beg end-m)
+    (setq insertion-mark (point))
+    (insert "\n")
+    (insert try-code-end-string "\n")
+    (comment-region (1+ insertion-mark) (point))
+    (goto-char insertion-mark)
+    (indent-according-to-mode)
+    (message "Your old code is in the kill-ring.")
+    (set-marker end-m nil)
+    ))
 
 (defun try-code-comment-unmake-old-test-region (point)
   "Unmake a old/test region around `point'.
