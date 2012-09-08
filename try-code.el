@@ -3,9 +3,9 @@
 ;; Filename: try-code.el Description: Author: Le Wang Maintainer: Le Wang\
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Thu Aug 16 23:19:32 2012 (+0800)
+;; Last-Updated: Sat Sep  8 19:28:42 2012 (+0800)
 ;;           By: Le Wang
-;;     Update #: 33
+;;     Update #: 42
 ;; URL: https://raw.github.com/lewang/le_emacs_try_code/master/try-code.el
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -440,34 +440,35 @@ User is offered a choice of which to keep."
           (setq test-code-overlay (make-overlay test-code-start test-code-end))
           (overlay-put test-code-overlay 'face 'try-code-test-code-face)
           (setq char
-                (try-code-get-char
-                 (concat "Keep ("
+                (read-char-choice
+                 (concat (propertize "K" 'face 'default)
+                         "eep ("
                          (propertize "o" 'face 'try-code-old-code-face)
                          ")ld or ("
                          (propertize "t" 'face 'try-code-test-code-face)
                          ")test? ")
-                 "OT"
-                 t))
-          (cond ((= ?O  char)
-                 (goto-char old-code-start)
-                 (comment-region (point)
-                                 (point-at-bol (1+ old-code-line-count))
-                                 '(4))
-                 (setq selected-string
-                       (buffer-substring-no-properties
-                        old-code-start
-                        (point-at-bol (1+ old-code-line-count)))))
-                ((= ?T char)
-                 (goto-char test-code-start)
-                 (setq selected-string
-                       (buffer-substring-no-properties
-                        test-code-start
-                        (point-at-bol (1+ test-code-line-count))))
-                 (when (string-match  "\`[\n\r\t ]*\'" selected-string)
-                   (setq selected-string "")))
-                ;; sometimes we just want to find the section
-                ((= ? char)
-                 (setq no-action t)))
+                 (append "oOtT" nil)))
+          (case char
+            ((?o ?O)
+             (goto-char old-code-start)
+             (comment-region (point)
+                             (point-at-bol (1+ old-code-line-count))
+                             '(4))
+             (setq selected-string
+                   (buffer-substring-no-properties
+                    old-code-start
+                    (point-at-bol (1+ old-code-line-count)))))
+            ((?t ?T)
+             (goto-char test-code-start)
+             (setq selected-string
+                   (buffer-substring-no-properties
+                    test-code-start
+                    (point-at-bol (1+ test-code-line-count))))
+             (when (string-match  "\`[\n\r\t ]*\'" selected-string)
+               (setq selected-string "")))
+            ;; sometimes we just want to find the section
+            ((?)
+             (setq no-action t)))
           (delete-overlay old-code-overlay)
           (delete-overlay test-code-overlay)
           (goto-char code-region-start)
