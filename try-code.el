@@ -22,12 +22,19 @@
 
 ;;; Commentary:
 
-;; Comments out a chunk of code to allow you to try some new code.  When you
-;; reinvoke the function in the old or new section, you can choose which one
-;; to keep.
+;; Scenario: you want to try an alternative implementation of a function while
+;; keeping the original within reach.
 ;;
-;; To try it out, select some code in any programming mode buffer, press C-?,
-;; add some "test code" and press C-? again.
+;;    1. Select lines.
+;;    2. C-?
+;;    3. (optional) C-y (yank original implementation)
+;;    4. make changes as required
+;;    5. press C-? again
+;;
+;; When you reinvoke the function, you can choose which implementation to
+;; keep.
+;;
+;; Try it out; bug reports are welcome.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
