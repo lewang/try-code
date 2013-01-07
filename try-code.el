@@ -6,9 +6,9 @@
 ;; Maintainer: Le Wang
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Mon Jan  7 23:38:16 2013 (+0800)
+;; Last-Updated: Mon Jan  7 23:42:28 2013 (+0800)
 ;;           By: Le Wang
-;;     Update #: 46
+;;     Update #: 47
 ;; URL: https://github.com/lewang/try-code
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -250,6 +250,7 @@ only the upper case version of characters will be returned."
   "return various information about the line at point in an alist.
 
 text-begin-pos starts after spaces and read-only text"
+  (comment-normalize-vars)
   (setq point (or point (point)))
   (save-excursion
     (goto-char point)
