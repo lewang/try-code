@@ -1,14 +1,12 @@
-* Installation:
+## Installation:
 
-#+begin_src emacs-lisp
-  (autoload 'try-code "try-code"  nil t)
-  (global-set-key [(control \?)] 'try-code)
-#+end_src
+    (autoload 'try-code "try-code"  nil t)
+    (global-set-key (kbd "C-?") 'try-code)
 
 
-* Commentary:
+## Commentary:
 
-*Scenario*: you want to try an alternative implementation of a function while
+**Scenario**: you want to try an alternative implementation of a function while
 keeping the original within reach.
 
 1. Select lines.

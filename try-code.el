@@ -6,9 +6,9 @@
 ;; Maintainer: Le Wang
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Mon Jan  7 23:30:45 2013 (+0800)
+;; Last-Updated: Mon Jan  7 23:35:09 2013 (+0800)
 ;;           By: Le Wang
-;;     Update #: 44
+;;     Update #: 45
 ;; URL: https://github.com/lewang/try-code
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -18,7 +18,7 @@
 ;;; installation:
 
 ;;           (autoload 'try-code "try-code"  nil t)
-;;           (global-set-key [(control \?)] 'try-code)
+;;           (global-set-key (kbd "C-?") 'try-code)
 
 ;;; Commentary:
 
