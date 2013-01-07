@@ -6,9 +6,9 @@
 ;; Maintainer: Le Wang
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Mon Jan  7 23:35:09 2013 (+0800)
+;; Last-Updated: Mon Jan  7 23:38:16 2013 (+0800)
 ;;           By: Le Wang
-;;     Update #: 45
+;;     Update #: 46
 ;; URL: https://github.com/lewang/try-code
 ;; Keywords: programming language modes
 ;; Compatibility:
@@ -178,7 +178,7 @@ only the upper case version of characters will be returned."
 
 "
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ;; This function is broken in 3 ways:           ;;
+   ;; This function is broken in 2 ways:           ;;
    ;;                                              ;;
    ;; 1. Quoted comment start.                     ;;
    ;;                                              ;;
@@ -187,10 +187,6 @@ only the upper case version of characters will be returned."
    ;; /*                                           ;;
    ;;  * comment                                   ;;
    ;;  */                                          ;;
-   ;;                                              ;;
-   ;; 3. comment before code => THIS IS FIXED.     ;;
-   ;;                                              ;;
-   ;; /* comment */ int /* comment 2 */ a = 5;     ;;
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (save-excursion
