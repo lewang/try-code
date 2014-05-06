@@ -6,9 +6,7 @@
 ;; Maintainer: Le Wang
 ;; Created: Wed Feb  2 23:09:17 2011 (+0800)
 ;; Version: 0.1
-;; Last-Updated: Fri Jan 11 00:43:10 2013 (+0800)
 ;;           By: Le Wang
-;;     Update #: 49
 ;; URL: https://github.com/lewang/try-code
 ;; Keywords: programming language modes
 ;; Compatibility:
