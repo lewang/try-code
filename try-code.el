@@ -261,7 +261,7 @@ text-begin-pos starts after spaces and read-only text"
     (forward-line 0)
     (let ((comment-begin-pos (when comment-start-skip
                                (prog1
-                                   (if (loop while (re-search-forward comment-start-skip (point-at-eol) t)
+                                   (if (cl-loop while (re-search-forward comment-start-skip (point-at-eol) t)
                                              do (when (eq 'comment (syntax-ppss-context (syntax-ppss)))
                                                   (return 'found)))
                                        (point)
