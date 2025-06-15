@@ -6,8 +6,9 @@
 
 ## Commentary:
 
-**Scenario**: you want to try an alternative implementation of a function while
-keeping the original within reach.
+**Scenario**: you want to try an alternative implementation of a region while
+keeping the original for comparison. This happens on the fly, before you're
+ready to commit to VC, etc.
 
 1. Select lines.
 2. C-?
