@@ -459,7 +459,7 @@ User is offered a choice of which to keep."
                          (propertize "t" 'face 'try-code-test-code-face)
                          ")test? ")
                  (append "oOtT" nil)))
-          (case char
+          (cl-case char
             ((?o ?O)
              (goto-char old-code-start)
              (comment-region (point)
